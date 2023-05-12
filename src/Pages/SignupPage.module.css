@@ -1,0 +1,25 @@
+.Form {
+  width: 40%;
+  margin-left: 30%;
+}
+
+.h1 {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.p {
+  text-align: center;
+  color: rgb(121, 123, 125);
+}
+
+.member {
+  margin-top: 5px;
+}
+
+.spinner {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 200px;
+}
