@@ -45,7 +45,7 @@ function SignupPage() {
       return;
     }
     if (user || success) {
-      navigate("/ThankPage");
+      navigate("/thankyou");
     }
     dispatch(reset());
   }, [user, success, error, message, navigate, dispatch]);
