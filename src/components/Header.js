@@ -11,7 +11,7 @@ function Header() {
       {user ? (
         <>
           <Navbar bg="dark" variant="dark">
-            <Container className="p-2">
+            <Container className="p-1">
               <Navbar.Brand as={Link} to="/" className="fs-2 fw-bold">
                 LOGO
               </Navbar.Brand>
@@ -32,7 +32,7 @@ function Header() {
       ) : (
         <>
           <Navbar bg="dark" variant="dark">
-            <Container>
+            <Container className="p-1">
               <Navbar.Brand as={Link} to="/" className="fs-2 fw-bold">
                 LOGO
               </Navbar.Brand>

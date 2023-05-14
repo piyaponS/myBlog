@@ -5,10 +5,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ModalMessage from "./ModalMessage";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Message() {
   const [showModal, setShowModal] = useState(false);
   const [modalZIndex, setModalZIndex] = useState(0);
+  const { user } = useSelector((state) => state.auth);
 
   const openModal = () => {
     setShowModal(true);
@@ -21,20 +23,26 @@ function Message() {
   return (
     <>
       <Form className={classes.form}>
-        <div className="d-grid">
-          <Row>
-            <Col lg={2}></Col>
-            <Col lg={10}>
-              <Button
-                variant="secondary"
-                style={{ width: "100%" }}
-                onClick={openModal}
-              >
-                What do you want to share...?
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        <Row>
+          <Col
+            lg={2}
+            style={{
+              textAlign: "center",
+              margin: "auto auto",
+            }}
+          >
+            {user.name}
+          </Col>
+          <Col lg={10}>
+            <Button
+              variant="secondary"
+              style={{ width: "100%" }}
+              onClick={openModal}
+            >
+              What do you want to share...?
+            </Button>
+          </Col>
+        </Row>
       </Form>
       <ModalMessage
         onShow={showModal}

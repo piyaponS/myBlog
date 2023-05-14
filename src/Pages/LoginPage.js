@@ -40,7 +40,7 @@ function LoginPage() {
     if (error) {
       return;
     }
-    if (user.token || success) {
+    if (user && success) {
       navigate("/auth");
     }
 
