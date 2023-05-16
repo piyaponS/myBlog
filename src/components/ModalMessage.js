@@ -22,9 +22,7 @@ function ModalMessage(props) {
   const { title, description, body, taglist } = enteredData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { article, loading, success, error, message } = useSelector(
-    (state) => state.article
-  );
+  const { loading, error, message } = useSelector((state) => state.article);
   const submitHandler = (event) => {
     event.preventDefault();
     const articleData = {
@@ -43,13 +41,14 @@ function ModalMessage(props) {
     if (loading) {
       return <Spinner animation="grow" size="lg" />;
     }
+    window.location.reload();
   };
   useEffect(() => {
     if (error) {
       return;
     }
     dispatch(getArticles());
-  }, [article, success, error, message, dispatch, navigate]);
+  }, [error, message, dispatch, navigate]);
   return (
     <Modal show={props.onShow} onHide={props.onHide} size="lg" animation={true}>
       <Modal.Header closeButton>

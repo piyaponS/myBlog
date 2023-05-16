@@ -3,11 +3,10 @@ import Header from "../components/Header";
 import Message from "../components/Message";
 import CardMessage from "../components/CardMessage";
 import { useSelector, useDispatch } from "react-redux";
+import { Spinner } from "react-bootstrap";
 
 function AuthPage() {
-  const { article, loading, success, error, message } = useSelector(
-    (state) => state.article
-  );
+  const { article, loading } = useSelector((state) => state.article);
 
   return (
     <>
