@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -7,13 +7,21 @@ import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 import classes from "./ThankyouPage.module.css";
 import { BsCheck2Circle } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { reset } from "../features/auth/authSlice";
 
 const ThankPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const backToLogin = (event) => {
     event.preventDefault();
     navigate("/login");
+    window.location.reload();
   };
+  useEffect(() => {
+    dispatch(reset());
+  });
+
   return (
     <>
       <Header />

@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Message from "../components/Message";
 import CardMessage from "../components/CardMessage";
 import { useSelector, useDispatch } from "react-redux";
+import Avatar from "react-nice-avatar";
 import { Spinner } from "react-bootstrap";
 
 function AuthPage() {

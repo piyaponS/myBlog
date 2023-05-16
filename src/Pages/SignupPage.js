@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import { Button, Row, Col, InputGroup } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import classes from "./SignupPage.module.css";
 import { Link } from "react-router-dom";
@@ -141,6 +141,21 @@ function SignupPage() {
   };
 
   const { name, email, password, confirmPassword } = enteredData;
+  const {
+    faceColor,
+    hairStyle,
+    hatStyle,
+    glassesStyle,
+    eyeBrowStyle,
+    eyeStyle,
+    earSize,
+    noseStyle,
+    mouthStyle,
+    shirtStyle,
+    hairColor,
+    shirtColor,
+    bgColor,
+  } = profileImage;
   const { user, loading, success, error, message } = useSelector(
     (state) => state.auth
   );
@@ -160,6 +175,19 @@ function SignupPage() {
       name,
       email,
       password,
+      faceColor,
+      hairStyle,
+      hatStyle,
+      glassesStyle,
+      eyeBrowStyle,
+      eyeStyle,
+      earSize,
+      noseStyle,
+      mouthStyle,
+      shirtStyle,
+      hairColor,
+      shirtColor,
+      bgColor,
     };
     dispatch(register(userData));
   };

@@ -9,7 +9,7 @@ import { FiLogOut } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
 
 function Header() {
-  const { user } = useSelector((state) => state.auth);
+  const { user, success } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(logout());
