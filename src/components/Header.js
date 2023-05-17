@@ -9,11 +9,12 @@ import { FiLogOut } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
 
 function Header() {
-  const { user, success } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(logout());
   };
+
   return (
     <>
       {user ? (
@@ -33,7 +34,7 @@ function Header() {
                   menuVariant="dark"
                   className="fs-5"
                 >
-                  <NavDropdown.Item as={Link} to="/">
+                  <NavDropdown.Item as={Link} to={`/auth/profile/${user._id}`}>
                     <BsPersonFill className="me-2" /> Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item href="/login" onClick={logoutHandler}>

@@ -1,30 +1,23 @@
 import React, { useEffect } from "react";
-import Header from "../components/Header";
+
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
 import classes from "./ThankyouPage.module.css";
 import { BsCheck2Circle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { reset } from "../features/auth/authSlice";
 
 const ThankPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const backToLogin = (event) => {
-    event.preventDefault();
-    navigate("/login");
-    window.location.reload();
-  };
+
   useEffect(() => {
     dispatch(reset());
   });
 
   return (
     <>
-      <Header />
       <Container>
         <Row className="justify-content-md-center mt-5">
           <Col className={classes.text}>
@@ -36,14 +29,11 @@ const ThankPage = () => {
               Your account has been created, get more reading your friend's
               articles and writing your owns.
             </p>
-            <Button
-              variant="dark"
-              type="submit"
-              size="lg"
-              onClick={backToLogin}
-            >
-              Back to login page
-            </Button>
+            <a href="/login">
+              <Button variant="dark" type="submit" size="lg">
+                Back to login page
+              </Button>
+            </a>
           </Col>
         </Row>
       </Container>

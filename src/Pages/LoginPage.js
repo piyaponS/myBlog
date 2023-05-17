@@ -25,6 +25,15 @@ function LoginPage() {
       return { ...prev, [event.target.name]: event.target.value };
     });
   };
+  useEffect(() => {
+    if (error) {
+      return;
+    }
+    if (user && success) {
+      navigate("/auth");
+    }
+    dispatch(reset());
+  }, [user, success, error, message, navigate, dispatch]);
   const submitHandler = (event) => {
     event.preventDefault();
     const userData = {
@@ -36,16 +45,7 @@ function LoginPage() {
       return <Spinner animation="grow" size="lg" />;
     }
   };
-  useEffect(() => {
-    if (error) {
-      return;
-    }
-    if (user) {
-      navigate("/auth");
-    }
 
-    dispatch(reset());
-  }, [user, success, error, message, navigate, dispatch]);
   return (
     <>
       <Header />

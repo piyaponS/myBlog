@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getArticles, postArticle } from "../features/articles/articles";
+import { getArticles, postArticle } from "../features/articles/articlesSlice";
 import { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 
@@ -39,7 +39,7 @@ function ModalMessage(props) {
       taglist: "",
     });
     if (loading) {
-      return <Spinner animation="grow" size="lg" />;
+      return <Spinner animation="border" size="lg" />;
     }
     window.location.reload();
   };
