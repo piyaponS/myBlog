@@ -1,0 +1,7 @@
+.hover {
+  box-sizing: border-box;
+  width: 110px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
