@@ -6,13 +6,17 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { SlSettings } from "react-icons/sl";
 import Stack from "react-bootstrap/Stack";
 import ModalProfile from "../components/ModalProfile";
+import ModalProfileImage from "../components/ModalProfileImage";
 import classes from "./ProfilePage.module.css";
 import { BiEditAlt } from "react-icons/bi";
 
 function ProfilePage() {
   const [showModal, setShowModal] = useState(false);
   const [modalZIndex, setModalZIndex] = useState(0);
+  const [showModalImage, setShowModalImage] = useState(false);
+  const [modalImageZIndex, setModalImageZIndex] = useState(0);
   const { user } = useSelector((state) => state.auth);
+
   const openModal = () => {
     setShowModal(true);
     setModalZIndex(10);
@@ -21,6 +25,16 @@ function ProfilePage() {
     setShowModal(false);
     setModalZIndex(0);
   };
+
+  const openModalImage = () => {
+    setShowModalImage(true);
+    setModalImageZIndex(10);
+  };
+  const closeModalImage = () => {
+    setShowModalImage(false);
+    setModalImageZIndex(0);
+  };
+
   return (
     <>
       <Header />
@@ -61,6 +75,7 @@ function ProfilePage() {
                   bottom: "-8%",
                   right: "-8%",
                 }}
+                onClick={openModalImage}
               >
                 <BiEditAlt style={{ fontSize: "20px" }} />
               </Button>
@@ -90,6 +105,11 @@ function ProfilePage() {
           onShow={showModal}
           onHide={closeModal}
           style={{ zIndex: modalZIndex }}
+        />
+        <ModalProfileImage
+          onShow={showModalImage}
+          onHide={closeModalImage}
+          style={{ zIndex: modalImageZIndex }}
         />
         <Row>
           <Col>

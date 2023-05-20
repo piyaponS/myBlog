@@ -1,9 +1,11 @@
 import { Modal, Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser, reset } from "../features/auth/authSlice";
+import { useEffect, useState } from "react";
 
 function ModalProfile(props) {
-  const { user } = useSelector((state) => state.auth);
+  const { user, success, error, message } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [enteredData, setEnteredData] = useState({
     name: user.name,
     bio: user.bio,
@@ -13,8 +15,32 @@ function ModalProfile(props) {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    const updateData = {
+      name,
+      bio,
+    };
+    dispatch(updateUser(updateData));
+    setEnteredData({
+      name: "",
+      bio: "",
+    });
   };
-  const changeHandler = (event) => {};
+
+  useEffect(() => {
+    if (error) {
+      console.error(message);
+    }
+    if (success) {
+      window.location.reload();
+      dispatch(reset());
+    }
+  }, [dispatch, error, message, success]);
+
+  const changeHandler = (event) => {
+    setEnteredData((prev) => {
+      return { ...prev, [event.target.name]: event.target.value };
+    });
+  };
   return (
     <>
       <Modal
