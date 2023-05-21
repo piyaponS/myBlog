@@ -46,27 +46,6 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   localStorage.removeItem("user");
 });
 
-export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
-  const token = thunkAPI.getState().auth.user.token;
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    const response = await axios.get(
-      `${backendURL}/api/profile/:username`,
-      config
-    );
-    return response.data;
-  } catch (err) {
-    const message =
-      (err.response && err.response.data && err.response.data.message) ||
-      err.message;
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
 export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (user, thunkAPI) => {
@@ -147,19 +126,6 @@ export const authSlice = createSlice({
         localStorage.setItem("user", JSON.stringify(state.user));
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = true;
-        state.message = action.payload;
-      })
-      .addCase(getUser.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.user = action.payload;
-      })
-      .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
         state.message = action.payload;

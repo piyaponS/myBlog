@@ -38,7 +38,15 @@ export const getFriends = createAsyncThunk(
 export const friendsSlice = createSlice({
   name: "friend",
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state) => {
+      state.friend = null;
+      state.loading = false;
+      state.success = false;
+      state.error = false;
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getFriends.pending, (state) => {
@@ -51,5 +59,5 @@ export const friendsSlice = createSlice({
       });
   },
 });
-
+export const { reset } = friendsSlice.actions;
 export default friendsSlice.reducer;

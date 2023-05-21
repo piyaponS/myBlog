@@ -7,6 +7,7 @@ import AuthPage from "./Pages/AuthPage";
 import ThankPage from "./Pages/ThankPage";
 import ProfilePage from "./Pages/ProfilePage";
 import ProfileFriendsPage from "./Pages/ProfileFriendsPage";
+import ArticlePage from "./Pages/ArticlePage";
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
         <Route path="/auth/profile/:userId" element={<ProfilePage />} />
         <Route
           path="/auth/profile/friends/:username"
-          element={<ProfileFriendsPage />}
+          element={<ArticlePage />}
         />
+        <Route path="/auth/article/:slug" element={<ProfileFriendsPage />} />
         <Route path="/thankyou" element={<ThankPage />} />
       </Routes>
     </Router>

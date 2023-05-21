@@ -57,6 +57,31 @@ export const postArticle = createAsyncThunk(
   }
 );
 
+export const favoriteArticle = createAsyncThunk(
+  "article/favoriteArticle",
+  async (favorite, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.patch(
+        `${backendURL}/api/articles`,
+        favorite,
+        config
+      );
+      return response.data;
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const articlesSlice = createSlice({
   name: "article",
   initialState,

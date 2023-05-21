@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Message from "../components/Message";
 import CardMessage from "../components/CardMessage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Spinner } from "react-bootstrap";
 import classes from "./AuthPage.module.css";
+import { reset } from "../features/friends/friendSlice";
 
 function AuthPage() {
+  const dispatch = useDispatch();
   const { article, loading, error, message } = useSelector(
     (state) => state.article
   );
@@ -15,6 +17,7 @@ function AuthPage() {
     if (error) {
       console.error(message);
     }
+    dispatch(reset());
   });
 
   return (
@@ -52,6 +55,7 @@ function AuthPage() {
                   hairColor={article.hairColor}
                   shirtColor={article.shirtColor}
                   bgColor={article.bgColor}
+                  slug={article.slug}
                   createdAt={article.createdAt}
                 />
               );

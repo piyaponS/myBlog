@@ -11,9 +11,7 @@ import classes from "./ProfileFriendsPage.module.css";
 function ProfilePage() {
   const dispatch = useDispatch();
   const { username } = useParams();
-  const { friend, success, loading, error, message } = useSelector(
-    (state) => state.friend
-  );
+  const { friend, loading, error } = useSelector((state) => state.friend);
   useEffect(() => {
     dispatch(getFriends(username));
   }, [username]);
