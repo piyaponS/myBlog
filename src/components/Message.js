@@ -51,7 +51,7 @@ function Message() {
               className="mt-1 fs-4"
               onClick={openModal}
             >
-              What do you want to share...?
+              Hi! {user.name}, what do you want to share...?
             </Button>
           </Col>
         </Row>

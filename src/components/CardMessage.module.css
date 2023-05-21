@@ -1,0 +1,9 @@
+.hoverLetter:hover {
+  text-decoration: underline;
+}
+
+.hoverLetter {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+}

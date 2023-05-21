@@ -33,10 +33,24 @@ function AuthPage() {
                 <CardMessage
                   key={article._id}
                   id={article._id}
+                  name={article.name}
                   title={article.title}
                   description={article.description}
                   body={article.body}
                   taglist={article.taglist}
+                  faceColor={article.faceColor}
+                  hairStyle={article.hairStyle}
+                  hatStyle={article.hatStyle}
+                  glassesStyle={article.glassesStyle}
+                  eyeBrowStyle={article.eyeBrowStyle}
+                  eyeStyle={article.eyeStyle}
+                  earSize={article.earSize}
+                  noseStyle={article.noseStyle}
+                  mouthStyle={article.mouthStyle}
+                  shirtStyle={article.shirtStyle}
+                  hairColor={article.hairColor}
+                  shirtColor={article.shirtColor}
+                  bgColor={article.bgColor}
                 />
               );
             })}
