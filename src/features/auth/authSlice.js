@@ -54,7 +54,10 @@ export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
     },
   };
   try {
-    const response = await axios.get(`${backendURL}/api/user`, config);
+    const response = await axios.get(
+      `${backendURL}/api/profile/:username`,
+      config
+    );
     return response.data;
   } catch (err) {
     const message =

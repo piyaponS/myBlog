@@ -6,6 +6,7 @@ import LoginPage from "./Pages/LoginPage";
 import AuthPage from "./Pages/AuthPage";
 import ThankPage from "./Pages/ThankPage";
 import ProfilePage from "./Pages/ProfilePage";
+import ProfileFriendsPage from "./Pages/ProfileFriendsPage";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/auth/profile/:userId" element={<ProfilePage />} />
+        <Route
+          path="/auth/profile/friends/:username"
+          element={<ProfileFriendsPage />}
+        />
         <Route path="/thankyou" element={<ThankPage />} />
       </Routes>
     </Router>
