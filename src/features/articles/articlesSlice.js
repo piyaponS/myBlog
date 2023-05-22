@@ -128,7 +128,7 @@ export const articlesSlice = createSlice({
         state.loading = false;
         state.success = true;
         const updateArticle = action.payload;
-
+        console.log(updateArticle);
         const articleIndex = state.article.findIndex(
           (item) => item._id === updateArticle.article._id
         );
@@ -139,13 +139,13 @@ export const articlesSlice = createSlice({
 
         const article = state.article[articleIndex];
 
-        if (article.favoritesCount.includes(updateArticle.article.userId)) {
+        if (article.favoritesCount.includes(updateArticle.userId)) {
           article.favoritesCount = article.favoritesCount.filter(
-            (id) => id !== updateArticle.article.userId
+            (id) => id !== updateArticle.userId
           );
           article.favorited = article.favoritesCount.length;
         } else {
-          article.favoritesCount.push(updateArticle.article.userId);
+          article.favoritesCount.push(updateArticle.userId);
           article.favorited = article.favoritesCount.length;
         }
 

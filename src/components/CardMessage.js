@@ -16,7 +16,7 @@ function CardMessage(props) {
   const [favoritesCount, setFavoritesCount] = useState(props.favoritesCount);
   const dispatch = useDispatch();
   const springPropsButton = useSpring({
-    scale: favorited ? 1.1 : 1,
+    scale: favoritesCount.includes(user._id) ? 1.1 : 1,
   });
 
   const navigate = useNavigate();
@@ -50,7 +50,15 @@ function CardMessage(props) {
       return;
     }
     setButtonDisabled(true);
-    setFavorited((favorited) => (favorited ? favorited - 1 : favorited + 1));
+
+    const updatedFavoritesCount = favoritesCount.includes(user._id)
+      ? favoritesCount.filter((id) => id !== user._id)
+      : [...favoritesCount, user._id];
+
+    setFavorited(
+      favoritesCount.includes(user._id) ? favorited - 1 : favorited + 1
+    );
+    setFavoritesCount(updatedFavoritesCount);
 
     try {
       await dispatch(
@@ -68,6 +76,7 @@ function CardMessage(props) {
   const clickArticleHandler = () => {
     navigate(`/auth/article/${props.slug}`);
   };
+
   return (
     <Card style={{ width: "70%" }} className="mt-4 ms-5">
       <Card.Header>
@@ -119,7 +128,7 @@ function CardMessage(props) {
                 <FaHeart
                   className="mb-1 me-1"
                   style={{
-                    color: favorited ? "red" : "",
+                    color: favoritesCount.includes(user._id) ? "red" : "",
                   }}
                 />{" "}
                 {favorited}
@@ -135,6 +144,9 @@ function CardMessage(props) {
         <Card.Text>{props.body}</Card.Text>
         <Card.Text>{props.taglist}</Card.Text>
       </Card.Body>
+      <Card.Footer>
+        <p>Comment</p>
+      </Card.Footer>
     </Card>
   );
 }

@@ -37,7 +37,6 @@ function AuthPage() {
                 <CardMessage
                   key={article._id}
                   id={article._id}
-                  userId={article.userId}
                   name={article.name}
                   title={article.title}
                   description={article.description}
