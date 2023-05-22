@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { favoriteArticle } from "../features/articles/articlesSlice";
 import { resetArticles } from "../features/articles/articlesSlice";
+import { TbMessageCircle } from "react-icons/tb";
 
 function CardMessage(props) {
   const { user } = useSelector((state) => state.auth);
@@ -16,7 +17,7 @@ function CardMessage(props) {
   const [favoritesCount, setFavoritesCount] = useState(props.favoritesCount);
   const dispatch = useDispatch();
   const springPropsButton = useSpring({
-    scale: favoritesCount.includes(user._id) ? 1.1 : 1,
+    scale: favoritesCount.includes(user._id) ? 1.05 : 1,
   });
 
   const navigate = useNavigate();
@@ -117,23 +118,14 @@ function CardMessage(props) {
             <Row>{convertTime(props.createdAt)}</Row>
           </Col>
           <Col sm="2">
-            <animated.div style={springPropsButton}>
-              <Button
-                variant="dark"
-                className="mt-2 ms-4"
-                size="md"
-                style={{ width: "70%" }}
-                onClick={favoriteHandler}
-              >
-                <FaHeart
-                  className="mb-1 me-1"
-                  style={{
-                    color: favoritesCount.includes(user._id) ? "red" : "",
-                  }}
-                />{" "}
-                {favorited}
-              </Button>
-            </animated.div>
+            <Button
+              variant="outline-secondary"
+              className=" ms-4 mt-2"
+              size="md"
+              style={{ width: "70%" }}
+            >
+              + Follow
+            </Button>
           </Col>
         </Row>
       </Card.Header>
@@ -145,7 +137,56 @@ function CardMessage(props) {
         <Card.Text>{props.taglist}</Card.Text>
       </Card.Body>
       <Card.Footer>
-        <p>Comment</p>
+        <Row>
+          <Col sm="4">
+            <animated.div style={springPropsButton}>
+              <Button
+                variant="outline-secondary"
+                className={classes.favorite}
+                size="md"
+                style={{ width: "80%" }}
+                onClick={favoriteHandler}
+              >
+                <FaHeart
+                  className="mb-2 me-1"
+                  style={{
+                    color: favoritesCount.includes(user._id) ? "red" : "",
+                    fontSize: "1.2rem",
+                  }}
+                />{" "}
+                <div style={{ fontSize: "1.2rem", display: "inline" }}>
+                  {favoritesCount.includes(user._id) ? "Favorited" : "Favorite"}
+                </div>
+              </Button>
+            </animated.div>
+          </Col>
+          <Col sm="4">
+            <Button
+              className={classes.message}
+              variant="outline-secondary"
+              size="md"
+              style={{ width: "80%" }}
+            >
+              <TbMessageCircle
+                className="mb-2 me-1"
+                style={{ fontSize: "1.4rem" }}
+              />{" "}
+              <div style={{ fontSize: "1.2rem", display: "inline" }}>
+                Message
+              </div>
+            </Button>
+          </Col>
+          <Col sm="4">
+            <TbMessageCircle
+              className="mb-2 me-1"
+              style={{ fontSize: "1.4rem" }}
+            />{" "}
+            <div style={{ fontSize: "1.2rem", display: "inline" }}>
+              {favorited}
+            </div>
+            <div style={{ fontSize: "1.2rem", display: "inline" }}>Message</div>
+          </Col>
+        </Row>
       </Card.Footer>
     </Card>
   );
