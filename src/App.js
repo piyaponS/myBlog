@@ -18,11 +18,11 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/auth/profile/:userId" element={<ProfilePage />} />
+        <Route path="/auth/article/:slug" element={<ArticlePage />} />
         <Route
           path="/auth/profile/friends/:username"
-          element={<ArticlePage />}
+          element={<ProfileFriendsPage />}
         />
-        <Route path="/auth/article/:slug" element={<ProfileFriendsPage />} />
         <Route path="/thankyou" element={<ThankPage />} />
       </Routes>
     </Router>

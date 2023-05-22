@@ -59,7 +59,7 @@ export const postArticle = createAsyncThunk(
 
 export const favoriteArticle = createAsyncThunk(
   "article/favoriteArticle",
-  async (favorite, thunkAPI) => {
+  async ({ _id, userId }, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
       const config = {
@@ -68,8 +68,8 @@ export const favoriteArticle = createAsyncThunk(
         },
       };
       const response = await axios.patch(
-        `${backendURL}/api/articles`,
-        favorite,
+        `${backendURL}/api/articles/${_id}`,
+        { _id, userId },
         config
       );
       return response.data;
@@ -85,7 +85,14 @@ export const favoriteArticle = createAsyncThunk(
 export const articlesSlice = createSlice({
   name: "article",
   initialState,
-  reducers: {},
+  reducers: {
+    resetArticles: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = false;
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getArticles.pending, (state) => {
@@ -115,8 +122,44 @@ export const articlesSlice = createSlice({
         state.error = true;
         state.message = action.payload;
         state.article = [];
+      })
+
+      .addCase(favoriteArticle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        const updateArticle = action.payload;
+
+        const articleIndex = state.article.findIndex(
+          (item) => item._id === updateArticle.article._id
+        );
+
+        if (articleIndex === -1) {
+          return;
+        }
+
+        const article = state.article[articleIndex];
+
+        if (article.favoritesCount.includes(updateArticle.article.userId)) {
+          article.favoritesCount = article.favoritesCount.filter(
+            (id) => id !== updateArticle.article.userId
+          );
+          article.favorited = article.favoritesCount.length;
+        } else {
+          article.favoritesCount.push(updateArticle.article.userId);
+          article.favorited = article.favoritesCount.length;
+        }
+
+        return state;
+      })
+
+      .addCase(favoriteArticle.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = true;
+        state.message = action.payload;
       });
   },
 });
 
+export const { resetArticles } = articlesSlice.actions;
 export default articlesSlice.reducer;

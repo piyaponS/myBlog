@@ -2,20 +2,23 @@ import { Card, Row, Col, Button } from "react-bootstrap";
 import Avatar from "react-nice-avatar";
 import classes from "./CardMessage.module.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
+import { favoriteArticle } from "../features/articles/articlesSlice";
+import { resetArticles } from "../features/articles/articlesSlice";
 
 function CardMessage(props) {
-  const [favorite, setFavorite] = useState(false);
-  const [favoriteCount, setFavoriteCount] = useState(0);
-
+  const { user } = useSelector((state) => state.auth);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [favorited, setFavorited] = useState(props.favorited);
+  const [favoritesCount, setFavoritesCount] = useState(props.favoritesCount);
+  const dispatch = useDispatch();
   const springPropsButton = useSpring({
-    scale: favorite ? 1.1 : 1,
+    scale: favorited ? 1.1 : 1,
   });
 
-  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const convertTime = (time) => {
     const date = new Date(time);
@@ -29,20 +32,39 @@ function CardMessage(props) {
     });
     return dateTimeFormat.format(date);
   };
+
+  useEffect(() => {
+    dispatch(resetArticles());
+
+    setFavorited(props.favorited);
+    setFavoritesCount(props.favoritesCount);
+  }, [props.favorited, props.favoritesCount]);
+
   const clickProfileHandler = () => {
     user._id === props.userId
       ? navigate(`/auth/profile/${user._id}`)
       : navigate(`/auth/profile/friends/${props.userId}`);
   };
-  const favoriteHandler = () => {
-    if (favorite) {
-      setFavorite(false);
-      setFavoriteCount(favoriteCount - 1);
-    } else {
-      setFavorite(true);
-      setFavoriteCount(favoriteCount + 1);
+  const favoriteHandler = async () => {
+    if (buttonDisabled) {
+      return;
+    }
+    setButtonDisabled(true);
+    setFavorited((favorited) => (favorited ? favorited - 1 : favorited + 1));
+
+    try {
+      await dispatch(
+        favoriteArticle({
+          _id: props.id,
+          userId: user._id,
+        })
+      );
+    } catch (error) {
+    } finally {
+      setButtonDisabled(false);
     }
   };
+
   const clickArticleHandler = () => {
     navigate(`/auth/article/${props.slug}`);
   };
@@ -96,9 +118,11 @@ function CardMessage(props) {
               >
                 <FaHeart
                   className="mb-1 me-1"
-                  style={{ color: favorite ? "red" : "" }}
+                  style={{
+                    color: favorited ? "red" : "",
+                  }}
                 />{" "}
-                {favoriteCount}
+                {favorited}
               </Button>
             </animated.div>
           </Col>

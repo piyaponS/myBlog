@@ -9,7 +9,7 @@ import { reset } from "../features/friends/friendSlice";
 
 function AuthPage() {
   const dispatch = useDispatch();
-  const { article, loading, error, message } = useSelector(
+  const { article, success, loading, error, message } = useSelector(
     (state) => state.article
   );
 
@@ -17,8 +17,9 @@ function AuthPage() {
     if (error) {
       console.error(message);
     }
+
     dispatch(reset());
-  });
+  }, [dispatch, error, message]);
 
   return (
     <>
@@ -56,7 +57,10 @@ function AuthPage() {
                   shirtColor={article.shirtColor}
                   bgColor={article.bgColor}
                   slug={article.slug}
+                  favorited={article.favorited}
+                  favoritesCount={article.favoritesCount}
                   createdAt={article.createdAt}
+                  success={success}
                 />
               );
             })}
