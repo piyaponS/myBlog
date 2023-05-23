@@ -1,0 +1,8 @@
+.background {
+  background-image: url("../bgHome.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  overflow: hidden;
+  opacity: 0.8;
+}

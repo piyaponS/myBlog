@@ -82,6 +82,30 @@ export const favoriteArticle = createAsyncThunk(
   }
 );
 
+export const getProfileArticle = createAsyncThunk(
+  "article/getProfileArticle",
+  async (slug, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(
+        `${backendURL}/api/articles/${slug}`,
+        config
+      );
+      return response.data;
+    } catch (err) {
+      const message =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const articlesSlice = createSlice({
   name: "article",
   initialState,
@@ -157,6 +181,14 @@ export const articlesSlice = createSlice({
         state.success = false;
         state.error = true;
         state.message = action.payload;
+      })
+      .addCase(getProfileArticle.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProfileArticle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.article = action.payload;
       });
   },
 });

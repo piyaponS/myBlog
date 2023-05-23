@@ -60,6 +60,7 @@ function AuthPage() {
                   favoritesCount={article.favoritesCount}
                   createdAt={article.createdAt}
                   success={success}
+                  userId={article.userId}
                 />
               );
             })}

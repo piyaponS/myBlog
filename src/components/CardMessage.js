@@ -172,7 +172,7 @@ function CardMessage(props) {
                 style={{ fontSize: "1.4rem" }}
               />{" "}
               <div style={{ fontSize: "1.2rem", display: "inline" }}>
-                Message
+                Comment
               </div>
             </Button>
           </Col>
