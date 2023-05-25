@@ -9,6 +9,7 @@ import { useSpring, animated } from "react-spring";
 import { favoriteArticle } from "../features/articles/articlesSlice";
 import { resetArticles } from "../features/articles/articlesSlice";
 import { TbMessageCircle } from "react-icons/tb";
+import { FiHeart } from "react-icons/fi";
 
 function CardMessage(props) {
   const { user } = useSelector((state) => state.auth);
@@ -118,14 +119,18 @@ function CardMessage(props) {
             <Row>{convertTime(props.createdAt)}</Row>
           </Col>
           <Col sm="2">
-            <Button
-              variant="outline-secondary"
-              className=" ms-4 mt-2"
-              size="md"
-              style={{ width: "70%" }}
-            >
-              + Follow
-            </Button>
+            {props.userId === user._id ? (
+              ""
+            ) : (
+              <Button
+                variant="outline-secondary"
+                className=" ms-4 mt-2"
+                size="md"
+                style={{ width: "70%" }}
+              >
+                + Follow
+              </Button>
+            )}
           </Col>
         </Row>
       </Card.Header>
@@ -176,15 +181,50 @@ function CardMessage(props) {
               </div>
             </Button>
           </Col>
-          <Col sm="4">
-            <TbMessageCircle
-              className="mb-2 me-1"
-              style={{ fontSize: "1.4rem" }}
-            />{" "}
-            <div style={{ fontSize: "1.2rem", display: "inline" }}>
+          <Col sm="2">
+            <FiHeart className="mb-1 me-1" style={{ fontSize: "1.4rem" }} />{" "}
+            <div
+              style={{
+                fontSize: "1.1rem",
+                display: "inline-block",
+              }}
+              className="mt-1"
+            >
               {favorited}
             </div>
-            <div style={{ fontSize: "1.2rem", display: "inline" }}>Message</div>
+            <div
+              style={{
+                fontSize: "1.1rem",
+                display: "inline-block",
+              }}
+              className="ms-1"
+            >
+              {favorited > 1 ? "Favorites" : "Favorite"}
+            </div>
+          </Col>
+          <Col sm="2">
+            <TbMessageCircle
+              className="mb-1 me-1"
+              style={{ fontSize: "1.4rem" }}
+            />
+            <div
+              style={{
+                fontSize: "1.1rem",
+                display: "inline-block",
+              }}
+              className="mt-1"
+            >
+              {0}
+            </div>
+            <div
+              style={{
+                fontSize: "1.1rem",
+                display: "inline-block",
+              }}
+              className="ms-1"
+            >
+              Message
+            </div>
           </Col>
         </Row>
       </Card.Footer>
