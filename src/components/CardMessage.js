@@ -171,6 +171,7 @@ function CardMessage(props) {
               variant="outline-secondary"
               size="md"
               style={{ width: "80%" }}
+              onClick={clickArticleHandler}
             >
               <TbMessageCircle
                 className="mb-2 me-1"

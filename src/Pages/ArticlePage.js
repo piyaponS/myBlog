@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../components/Header";
 import Avatar from "react-nice-avatar";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Spinner, Button, Form } from "react-bootstrap";
 import { getProfileArticle } from "../features/articles/articlesSlice";
+import { postComment } from "../features/comments/commentSlice";
 import classes from "./ArticlePage.module.css";
+import { BsSend } from "react-icons/bs";
+import CardComment from "../components/CardComment";
 
 function ArticlePage() {
+  const [comment, setComment] = useState("");
+  const [numLines, setNumLines] = useState(1);
+  const textareaRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
   const { article, loading, success, error, message } = useSelector(
     (state) => state.article
@@ -35,17 +41,28 @@ function ArticlePage() {
   useEffect(() => {
     dispatch(getProfileArticle(slug));
   }, [slug]);
+
+  const handleCommentChange = (event) => {
+    const { value } = event.target;
+    setComment(value);
+
+    const textarea = textareaRef.current;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
+
   if (loading) {
     return (
       <div className={classes.spinner}>
         <Spinner
           size="lg"
-          animation="border"
-          style={{ width: "80px", height: "80px" }}
+          animation="grow"
+          style={{ width: "60px", height: "60px" }}
         />
       </div>
     );
   }
+
   const profileHandler = () => {
     if (article.userId === user._id) {
       navigate(`/auth/profile/${article.userId}`);
@@ -53,10 +70,15 @@ function ArticlePage() {
       navigate(`/auth/profile/friends/${article.userId}`);
     }
   };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    dispatch(postComment({ slug, comment }));
+  };
+
   return (
     <>
       <Header />
-      <Container>
+      <Container style={{ backgroundColor: "#ffffff" }}>
         <Row style={{ backgroundColor: "#ffffff", opacity: "0.98" }}>
           <Row className="mt-4">
             <h1>{article.title}</h1>
@@ -101,45 +123,40 @@ function ArticlePage() {
               </Row>
               <Row>{convertTime(article.createdAt)}</Row>
             </Col>
+            <Col sm="2">
+              <Button className="mt-2">{article.favorited}</Button>
+            </Col>
+            <Col sm="2">
+              <Button className="mt-2">+ Follow</Button>
+            </Col>
           </Row>
         </Row>
-        <Row className="mt-4">
+
+        <Row className="mt-4" style={{ backgroundColor: "#ffffff" }}>
           <div>{article.description}</div>
           <div>{article.body}</div>
         </Row>
         <hr />
-        <Row>
-          <Col>
-            <Button>H</Button>
-          </Col>
-          <Col>
-            <Button>J</Button>
-          </Col>
-        </Row>
-        <Row>
+
+        <div>
+          {article.comment > 0 &&
+            article.map((comment) => {
+              return <CardComment key={comment._id} id={comment._id} />;
+            })}
+        </div>
+        <Form onSubmit={submitHandler}>
           <Form.Group
             style={{
-              border: "solid 0.2px",
               width: "45%",
               margin: "auto auto",
               padding: "0",
               borderRadius: "5px",
+              backgroundColor: "#ffffff",
+              position: "relative",
             }}
           >
-            <Form.Control
-              as="textarea"
-              placeholder="Leave a comment here"
-              style={{
-                height: "80px",
-                width: "100%",
-                borderTopLeftRadius: "5px",
-                borderTopRightRadius: "5px",
-                borderBottomLeftRadius: "0px",
-                borderBottomRightRadius: "0px",
-              }}
-            />
-            <Row style={{ height: "40px", width: "100%", margin: "0" }}>
-              <Col>
+            <Row>
+              <Col sm="1">
                 <Avatar
                   style={{
                     width: "2rem",
@@ -163,12 +180,37 @@ function ArticlePage() {
                   bgColor={user.bgColor}
                 />
               </Col>
-              <Col>
-                <Button>H</Button>
+              <Col sm="10">
+                <Form.Control
+                  style={{ backgroundColor: "#e7ecef", border: "none" }}
+                  size="md"
+                  as="textarea"
+                  rows={numLines + 1}
+                  placeholder="Leave a comment"
+                  className="mb-3"
+                  ref={textareaRef}
+                  value={comment}
+                  name={comment}
+                  onChange={handleCommentChange}
+                />
+              </Col>
+              <Col sm="1">
+                <Button
+                  variant="dark"
+                  style={{
+                    position: "absolute",
+                    bottom: "15px",
+                    right: "-1px",
+                  }}
+                  disabled={!comment ? true : false}
+                  type="submit"
+                >
+                  <BsSend style={{ fontSize: "16px" }} />
+                </Button>
               </Col>
             </Row>
           </Form.Group>
-        </Row>
+        </Form>
       </Container>
     </>
   );
