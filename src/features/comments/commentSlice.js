@@ -11,6 +11,30 @@ const initialState = {
   message: "",
 };
 
+export const getComments = createAsyncThunk(
+  "comments/getComments",
+  async (slug, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(
+        `${backendURL}/api/articles/comments/${slug}`,
+        config
+      );
+      return response.data;
+    } catch (err) {
+      const message =
+        (err.message && err.response.data && err.response.data.message) ||
+        err.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const postComment = createAsyncThunk(
   "comments/postComment",
   async ({ slug, comment }, thunkAPI) => {
@@ -23,7 +47,7 @@ export const postComment = createAsyncThunk(
       };
       const response = await axios.post(
         `${backendURL}/api/articles/${slug}`,
-        comment,
+        { comment },
         config
       );
       return response.data;
@@ -49,6 +73,18 @@ export const commentsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getComments.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getComments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.comments = action.payload;
+      })
+      .addCase(getComments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+        state.message = action.payload;
+      })
       .addCase(postComment.pending, (state) => {
         state.loading = true;
       })

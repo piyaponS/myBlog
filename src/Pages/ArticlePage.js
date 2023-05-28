@@ -5,7 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Spinner, Button, Form } from "react-bootstrap";
 import { getProfileArticle } from "../features/articles/articlesSlice";
-import { postComment } from "../features/comments/commentSlice";
+import {
+  getComments,
+  postComment,
+  resetComments,
+} from "../features/comments/commentSlice";
 import classes from "./ArticlePage.module.css";
 import { BsSend } from "react-icons/bs";
 import CardComment from "../components/CardComment";
@@ -18,6 +22,7 @@ function ArticlePage() {
   const { article, loading, success, error, message } = useSelector(
     (state) => state.article
   );
+  const { comments } = useSelector((state) => state.comment);
   const navigate = useNavigate();
   const convertTime = (time) => {
     if (!time) {
@@ -40,6 +45,7 @@ function ArticlePage() {
 
   useEffect(() => {
     dispatch(getProfileArticle(slug));
+    dispatch(getComments(slug));
   }, [slug]);
 
   const handleCommentChange = (event) => {
@@ -72,7 +78,8 @@ function ArticlePage() {
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(postComment({ slug, comment }));
+    dispatch(postComment({ slug: slug, comment: comment }));
+    setComment("");
   };
 
   return (
@@ -138,12 +145,18 @@ function ArticlePage() {
         </Row>
         <hr />
 
-        <div>
-          {article.comment > 0 &&
-            article.map((comment) => {
-              return <CardComment key={comment._id} id={comment._id} />;
+        {/* <div>
+          {comment.length > 0 &&
+            comment.map((comment) => {
+              return (
+                <CardComment
+                  key={comment._id}
+                  id={comment._id}
+                  comment={comment.comment}
+                />
+              );
             })}
-        </div>
+        </div> */}
         <Form onSubmit={submitHandler}>
           <Form.Group
             style={{
