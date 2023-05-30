@@ -22,7 +22,7 @@ function ArticlePage() {
   const { article, loading, success, error, message } = useSelector(
     (state) => state.article
   );
-  const { comments } = useSelector((state) => state.comment);
+
   const navigate = useNavigate();
   const convertTime = (time) => {
     if (!time) {
@@ -78,7 +78,30 @@ function ArticlePage() {
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(postComment({ slug: slug, comment: comment }));
+    console.log(comment);
+    dispatch(
+      postComment({
+        slug: slug,
+        comments: {
+          comment: comment,
+          userId: user._id,
+          username: user.name,
+          faceColor: user.faceColor,
+          hairStyle: user.hairStyle,
+          hatStyle: user.hatStyle,
+          glassesStyle: user.glassesStyle,
+          eyeBrowStyle: user.eyeBrowStyle,
+          eyeStyle: user.eyeStyle,
+          earSize: user.earSize,
+          noseStyle: user.noseStyle,
+          mouthStyle: user.mouthStyle,
+          shirtStyle: user.shirtStyle,
+          hairColor: user.hairColor,
+          shirtColor: user.shirtColor,
+          bgColor: user.bgColor,
+        },
+      })
+    );
     setComment("");
   };
 
@@ -157,6 +180,7 @@ function ArticlePage() {
               );
             })}
         </div> */}
+
         <Form onSubmit={submitHandler}>
           <Form.Group
             style={{

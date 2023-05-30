@@ -37,7 +37,7 @@ export const getComments = createAsyncThunk(
 
 export const postComment = createAsyncThunk(
   "comments/postComment",
-  async ({ slug, comment }, thunkAPI) => {
+  async ({ slug, comments }, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
       const config = {
@@ -47,7 +47,7 @@ export const postComment = createAsyncThunk(
       };
       const response = await axios.post(
         `${backendURL}/api/articles/${slug}`,
-        { comment },
+        { comments },
         config
       );
       return response.data;
@@ -89,10 +89,13 @@ export const commentsSlice = createSlice({
         state.loading = true;
       })
       .addCase(postComment.fulfilled, (state, action) => {
+        console.log("postComment.fulfilled triggered");
+        console.log("Payload:", action.payload.comments);
         state.loading = false;
         state.success = true;
-        state.comments.push(action.payload.comment);
+        state.comments.push(action.payload.comments);
       })
+
       .addCase(postComment.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
