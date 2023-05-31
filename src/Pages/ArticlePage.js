@@ -22,7 +22,7 @@ function ArticlePage() {
   const { article, loading, success, error, message } = useSelector(
     (state) => state.article
   );
-
+  const { comments } = useSelector((state) => state.comment);
   const navigate = useNavigate();
   const convertTime = (time) => {
     if (!time) {
@@ -106,7 +106,7 @@ function ArticlePage() {
   };
 
   return (
-    <>
+    <div>
       <Header />
       <Container style={{ backgroundColor: "#ffffff" }}>
         <Row style={{ backgroundColor: "#ffffff", opacity: "0.98" }}>
@@ -168,88 +168,93 @@ function ArticlePage() {
         </Row>
         <hr />
 
-        {/* <div>
-          {comment.length > 0 &&
-            comment.map((comment) => {
-              return (
-                <CardComment
-                  key={comment._id}
-                  id={comment._id}
-                  comment={comment.comment}
-                />
-              );
+        <div
+          style={{
+            backgroundColor: comments.length > 0 ? "white" : "",
+            width: comments.length > 0 ? "100%" : "",
+            overflowY: comments.length > 0 ? "scroll" : "",
+            height: comments.length > 0 ? "50vh" : "",
+            position: comments.length > 0 ? "relative" : "",
+          }}
+        >
+          {comments.length > 0 &&
+            comments.map((comment, index) => {
+              return <CardComment key={index} comment={comment.comment} />;
             })}
-        </div> */}
-
-        <Form onSubmit={submitHandler}>
-          <Form.Group
-            style={{
-              width: "45%",
-              margin: "auto auto",
-              padding: "0",
-              borderRadius: "5px",
-              backgroundColor: "#ffffff",
-              position: "relative",
-            }}
-          >
-            <Row>
-              <Col sm="1">
-                <Avatar
-                  style={{
-                    width: "2rem",
-                    height: "2rem",
-                    border: "1px solid black",
-                    cursor: "pointer",
-                  }}
-                  className=" mt-1"
-                  faceColor={user.faceColor}
-                  hairStyle={user.hairStyle}
-                  hatStyle={user.hatStyle}
-                  glassesStyle={user.glassesStyle}
-                  eyeBrowStyle={user.eyeBrowStyle}
-                  eyeStyle={user.eyeStyle}
-                  earSize={user.earSize}
-                  noseStyle={user.noseStyle}
-                  mouthStyle={user.mouthStyle}
-                  shirtStyle={user.shirtStyle}
-                  hairColor={user.hairColor}
-                  shirtColor={user.shirtColor}
-                  bgColor={user.bgColor}
-                />
-              </Col>
-              <Col sm="10">
-                <Form.Control
-                  style={{ backgroundColor: "#e7ecef", border: "none" }}
-                  size="md"
-                  as="textarea"
-                  rows={numLines + 1}
-                  placeholder="Leave a comment"
-                  className="mb-3"
-                  ref={textareaRef}
-                  value={comment}
-                  name={comment}
-                  onChange={handleCommentChange}
-                />
-              </Col>
-              <Col sm="1">
-                <Button
-                  variant="dark"
-                  style={{
-                    position: "absolute",
-                    bottom: "15px",
-                    right: "-1px",
-                  }}
-                  disabled={!comment ? true : false}
-                  type="submit"
-                >
-                  <BsSend style={{ fontSize: "16px" }} />
-                </Button>
-              </Col>
-            </Row>
-          </Form.Group>
-        </Form>
+        </div>
+        <div>
+          <Form onSubmit={submitHandler}>
+            <Form.Group
+              style={{
+                width: comments.length > 0 ? "100%" : "100%",
+                padding: "0",
+                borderRadius: "5px",
+                backgroundColor: "#ffffff",
+                position: "relative",
+                bottom: comments.length > 0 ? "0" : "",
+                zIndex: comments.length > 0 ? "100" : "",
+              }}
+            >
+              <Row>
+                <Col sm="1">
+                  <Avatar
+                    style={{
+                      width: "2rem",
+                      height: "2rem",
+                      border: "1px solid black",
+                      cursor: "pointer",
+                    }}
+                    className=" mt-1 ms-5"
+                    faceColor={user.faceColor}
+                    hairStyle={user.hairStyle}
+                    hatStyle={user.hatStyle}
+                    glassesStyle={user.glassesStyle}
+                    eyeBrowStyle={user.eyeBrowStyle}
+                    eyeStyle={user.eyeStyle}
+                    earSize={user.earSize}
+                    noseStyle={user.noseStyle}
+                    mouthStyle={user.mouthStyle}
+                    shirtStyle={user.shirtStyle}
+                    hairColor={user.hairColor}
+                    shirtColor={user.shirtColor}
+                    bgColor={user.bgColor}
+                  />
+                </Col>
+                <Col sm="10">
+                  <Form.Control
+                    style={{ backgroundColor: "#e7ecef", border: "none" }}
+                    size="md"
+                    as="textarea"
+                    rows={numLines + 1}
+                    placeholder="Leave a comment"
+                    className="mb-3"
+                    ref={textareaRef}
+                    value={comment}
+                    name={comment}
+                    onChange={handleCommentChange}
+                  />
+                </Col>
+                <Col sm="1">
+                  <Button
+                    variant="dark"
+                    style={{
+                      position: "absolute",
+                      bottom: "15px",
+                      right: "-1px",
+                    }}
+                    disabled={!comment ? true : false}
+                    type="submit"
+                    className="me-5"
+                  >
+                    <BsSend style={{ fontSize: "16px" }} />
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Group>
+          </Form>
+        </div>
       </Container>
-    </>
+    </div>
   );
 }
 

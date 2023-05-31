@@ -3,14 +3,13 @@ import { Card } from "react-bootstrap";
 
 function CardComment(props) {
   return (
-    <Card style={{ width: "70%" }} className="mt-4 ms-5">
+    <Card style={{ width: "40%" }} className="mb-5 ms-auto me-auto">
       <Card.Header>
-        <h1>sax</h1>
+        <p>Hi</p>
       </Card.Header>
       <Card.Body>
         <Card.Title style={{ cursor: "pointer" }}>{props.comment}</Card.Title>
       </Card.Body>
-      <Card.Footer></Card.Footer>
     </Card>
   );
 }
