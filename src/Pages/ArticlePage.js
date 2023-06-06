@@ -194,6 +194,7 @@ function ArticlePage() {
                 bottom: comments.length > 0 ? "0" : "",
                 zIndex: comments.length > 0 ? "100" : "",
               }}
+              className="mt-3"
             >
               <Row>
                 <Col sm="1">

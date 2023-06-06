@@ -65,6 +65,7 @@ export const commentsSlice = createSlice({
   initialState,
   reducers: {
     resetComments: (state) => {
+      state.comments = [];
       state.loading = false;
       state.success = false;
       state.error = false;

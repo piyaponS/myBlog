@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Spinner } from "react-bootstrap";
 import classes from "./AuthPage.module.css";
 import { reset } from "../features/friends/friendSlice";
+import { resetComments } from "../features/comments/commentSlice";
 
 function AuthPage() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function AuthPage() {
     if (error) {
       console.error(message);
     }
-
+    dispatch(resetComments());
     dispatch(reset());
   }, [dispatch, error, message]);
 
@@ -61,6 +62,7 @@ function AuthPage() {
                   createdAt={article.createdAt}
                   success={success}
                   userId={article.userId}
+                  comment={article.comment}
                 />
               );
             })}

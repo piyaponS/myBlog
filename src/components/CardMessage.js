@@ -37,7 +37,6 @@ function CardMessage(props) {
 
   useEffect(() => {
     dispatch(resetArticles());
-
     setFavorited(props.favorited);
     setFavoritesCount(props.favoritesCount);
   }, [props.favorited, props.favoritesCount]);
@@ -215,7 +214,7 @@ function CardMessage(props) {
               }}
               className="mt-1"
             >
-              {0}
+              {props.comment.length}
             </div>
             <div
               style={{
@@ -224,7 +223,7 @@ function CardMessage(props) {
               }}
               className="ms-1"
             >
-              Message
+              {props.comment.length > 1 ? "Messages" : "Message"}
             </div>
           </Col>
         </Row>
