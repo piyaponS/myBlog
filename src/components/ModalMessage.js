@@ -10,7 +10,6 @@ import { Spinner } from "react-bootstrap";
 function ModalMessage(props) {
   const [enteredData, setEnteredData] = useState({
     title: "",
-    description: "",
     body: "",
     taglist: "",
   });
@@ -19,7 +18,7 @@ function ModalMessage(props) {
       return { ...prev, [event.target.name]: event.target.value };
     });
   };
-  const { title, description, body, taglist } = enteredData;
+  const { title, body, taglist } = enteredData;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, error, message } = useSelector((state) => state.article);
@@ -27,14 +26,12 @@ function ModalMessage(props) {
     event.preventDefault();
     const articleData = {
       title,
-      description,
       body,
       taglist,
     };
     dispatch(postArticle(articleData));
     setEnteredData({
       title: "",
-      description: "",
       body: "",
       taglist: "",
     });
@@ -66,16 +63,6 @@ function ModalMessage(props) {
               autoComplete="off"
               className="mb-2"
               value={enteredData.title}
-              onChange={changeHandler}
-            />
-            <Form.Label>About</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="What's this article about?"
-              name="description"
-              autoComplete="off"
-              className="mb-2"
-              value={enteredData.description}
               onChange={changeHandler}
             />
             <Form.Label>Article Content</Form.Label>

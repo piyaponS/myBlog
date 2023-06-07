@@ -14,6 +14,7 @@ import { FiHeart } from "react-icons/fi";
 function CardMessage(props) {
   const { user } = useSelector((state) => state.auth);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [showFullContent, setShowFullContent] = useState(false);
   const [favorited, setFavorited] = useState(props.favorited);
   const [favoritesCount, setFavoritesCount] = useState(props.favoritesCount);
   const dispatch = useDispatch();
@@ -134,10 +135,20 @@ function CardMessage(props) {
         </Row>
       </Card.Header>
       <Card.Body>
-        <Card.Title style={{ cursor: "pointer" }} onClick={clickArticleHandler}>
-          {props.description}
+        <Card.Title
+          style={{ cursor: "pointer", fontWeight: "bold" }}
+          onClick={clickArticleHandler}
+        >
+          {props.title}
         </Card.Title>
-        <Card.Text>{props.body}</Card.Text>
+        <Card.Text>
+          {showFullContent ? props.body : props.body.slice(0, 400)}
+          {!showFullContent && props.body.length > 400 && (
+            <Button variant="link" onClick={() => setShowFullContent(true)}>
+              ...more
+            </Button>
+          )}
+        </Card.Text>
         <Card.Text>{props.taglist}</Card.Text>
       </Card.Body>
       <Card.Footer>

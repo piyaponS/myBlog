@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getFriends } from "../features/friends/friendSlice";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner, Card } from "react-bootstrap";
 import Avatar from "react-nice-avatar";
 import Header from "../components/Header";
 import { BiEditAlt } from "react-icons/bi";
 import classes from "./ProfileFriendsPage.module.css";
 
 function ProfilePage() {
+  const [showFullContent, setShowFullContent] = useState(false);
   const dispatch = useDispatch();
   const { username } = useParams();
   const { friend, loading, error } = useSelector((state) => state.friend);
   useEffect(() => {
     dispatch(getFriends(username));
-  }, [username]);
+  }, [username, dispatch]);
 
   if (loading) {
     return (
@@ -31,6 +32,11 @@ function ProfilePage() {
   if (error) {
     return <p>Error occurred while fetching friend data.</p>;
   }
+  const clickHandler = (event) => {
+    console.log(showFullContent);
+    setShowFullContent(true);
+    console.log(showFullContent);
+  };
 
   return (
     <>
@@ -49,19 +55,19 @@ function ProfilePage() {
                     border: "2px solid black",
                   }}
                   className="me-auto ms-auto mt-3"
-                  faceColor={friend.faceColor}
-                  hairStyle={friend.hairStyle}
-                  hatStyle={friend.hatStyle}
-                  glassesStyle={friend.glassesStyle}
-                  eyeBrowStyle={friend.eyeBrowStyle}
-                  eyeStyle={friend.eyeStyle}
-                  earSize={friend.earSize}
-                  noseStyle={friend.noseStyle}
-                  mouthStyle={friend.mouthStyle}
-                  shirtStyle={friend.shirtStyle}
-                  hairColor={friend.hairColor}
-                  shirtColor={friend.shirtColor}
-                  bgColor={friend.bgColor}
+                  faceColor={friend.getUserProfile.faceColor}
+                  hairStyle={friend.getUserProfile.hairStyle}
+                  hatStyle={friend.getUserProfile.hatStyle}
+                  glassesStyle={friend.getUserProfile.glassesStyle}
+                  eyeBrowStyle={friend.getUserProfile.eyeBrowStyle}
+                  eyeStyle={friend.getUserProfile.eyeStyle}
+                  earSize={friend.getUserProfile.earSize}
+                  noseStyle={friend.getUserProfile.noseStyle}
+                  mouthStyle={friend.getUserProfile.mouthStyle}
+                  shirtStyle={friend.getUserProfile.shirtStyle}
+                  hairColor={friend.getUserProfile.hairColor}
+                  shirtColor={friend.getUserProfile.shirtColor}
+                  bgColor={friend.getUserProfile.bgColor}
                 />
               )}
               <Button
@@ -83,7 +89,7 @@ function ProfilePage() {
               <Col sm="3"></Col>
               <Col sm="6">
                 <h2 style={{ textAlign: "center", marginTop: "10px" }}>
-                  {friend && friend.name}
+                  {friend && friend.getUserProfile.name}
                 </h2>
               </Col>
               <Col sm="3"></Col>
@@ -93,10 +99,30 @@ function ProfilePage() {
 
         <Row>
           <Col>
-            <h1>Hello</h1>
+            <h1>Intro</h1>
+            <p>Bio: {friend && friend.getUserProfile.bio}</p>
+            <Button>Edit details</Button>
           </Col>
           <Col>
-            <h1>Hello</h1>
+            {friend &&
+              friend.getArticles.map((article) => (
+                <Card key={article._id} className="mt-3">
+                  <Card.Header>{article.title}</Card.Header>
+                  <Card.Body>
+                    {showFullContent
+                      ? article.body
+                      : article.body.slice(0, 400)}
+                    {!showFullContent && article.body.length > 400 && (
+                      <Button
+                        variant="link"
+                        onClick={() => clickHandler(article._id)}
+                      >
+                        ...more
+                      </Button>
+                    )}
+                  </Card.Body>
+                </Card>
+              ))}
           </Col>
         </Row>
       </Container>

@@ -29,7 +29,7 @@ function LoginPage() {
     if (error) {
       return;
     }
-    if (user && success) {
+    if (user) {
       navigate("/auth");
     }
     dispatch(reset());
@@ -41,6 +41,7 @@ function LoginPage() {
       password,
     };
     dispatch(login(userData));
+
     if (loading) {
       return <Spinner animation="grow" size="lg" />;
     }

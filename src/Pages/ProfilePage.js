@@ -113,7 +113,9 @@ function ProfilePage() {
         />
         <Row>
           <Col>
-            <h1>Hello</h1>
+            <h1>Intro</h1>
+            <p>Bio: {user.bio} </p>
+            <Button>Edit details</Button>
           </Col>
           <Col>
             <h1>Hello</h1>
